@@ -77,7 +77,7 @@ public class SpringSecurirtyAppApplication {
 
 			UserEntity lizUser = new UserEntity();
 			lizUser.setUsername("liz");
-			lizUser.setPassword("12$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi3456");
+			lizUser.setPassword("$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi");
 			lizUser.setEnabled(true);
 			lizUser.setAccountNoExpired(true);
 			lizUser.setAccountNoLocked(true);

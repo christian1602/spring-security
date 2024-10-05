@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 1.3
                 .authorizeHttpRequests(auths -> {
                     // PRIMERO: CONFIGURAR LOS ENDPOINTS PUBLICOS
-                    auths.requestMatchers(HttpMethod.GET, "/auth/hello").permitAll();
+                    auths.requestMatchers(HttpMethod.GET, "/auth/get").permitAll();
 
                     // SEGUNDO: CONFIGURAR LOS ENDPOINTS PRIVADOS
                     // auths.requestMatchers(HttpMethod.POST, "/auth/post").hasAuthority("CREATE");
