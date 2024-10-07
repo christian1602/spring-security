@@ -1,16 +1,14 @@
 package com.christian.springsecurity.app.persistence.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -20,6 +18,8 @@ public class RoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // SE ESTABLECE QUE LA COLUMNA role_name ES DE TIPO STRING EN LA BASE DE DATOS
+    // SPRING SE ENCARGA DE MAPEAR EL ENUMERADO A STRING EN LA BASE DE DATOS
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name")
     private RoleEnum roleEnum;

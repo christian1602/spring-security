@@ -24,74 +24,73 @@ public class SpringSecurirtyAppApplication {
 	public CommandLineRunner init(UserRepository userRepository){
 		return args -> {
 			// CREATE PERMISSIONS
-			PermissionEntity createPermission = new PermissionEntity();
-			createPermission.setName("CREATE");
-
-			PermissionEntity readPermission = new PermissionEntity();
-			readPermission.setName("READ");
-
-			PermissionEntity updatePermission = new PermissionEntity();
-			updatePermission.setName("UPDATE");
-
-			PermissionEntity deletePermission = new PermissionEntity();
-			deletePermission.setName("DELETE");
-
-			PermissionEntity refactorPermission = new PermissionEntity();
-			refactorPermission.setName("REFACTOR");
+			PermissionEntity createPermission = PermissionEntity.builder().name("CREATE").build();
+			PermissionEntity readPermission = PermissionEntity.builder().name("READ").build();
+			PermissionEntity updatePermission = PermissionEntity.builder().name("UPDATE").build();
+			PermissionEntity deletePermission = PermissionEntity.builder().name("DELETE").build();
+			PermissionEntity refactorPermission = PermissionEntity.builder().name("REFACTOR").build();
 
 			// CREATE ROLES
-			RoleEntity adminRole = new RoleEntity();
-			adminRole.setRoleEnum(RoleEnum.ADMIN);
-			adminRole.setPermissions(Set.of(createPermission,readPermission,updatePermission,deletePermission));
+			RoleEntity adminRole = RoleEntity.builder()
+					.roleEnum(RoleEnum.ADMIN)
+					.permissions(Set.of(createPermission,readPermission,updatePermission,deletePermission))
+					.build();
 
-			RoleEntity userRole = new RoleEntity();
-			userRole.setRoleEnum(RoleEnum.USER);
-			userRole.setPermissions(Set.of(createPermission,readPermission));
+			RoleEntity userRole = RoleEntity.builder()
+					.roleEnum(RoleEnum.USER)
+					.permissions(Set.of(createPermission,readPermission))
+					.build();
 
-			RoleEntity guestRole = new RoleEntity();
-			guestRole.setRoleEnum(RoleEnum.GUEST);
-			guestRole.setPermissions(Set.of(readPermission));
+			RoleEntity guestRole = RoleEntity.builder()
+					.roleEnum(RoleEnum.GUEST)
+					.permissions(Set.of(readPermission))
+					.build();
 
-			RoleEntity developerRole = new RoleEntity();
-			developerRole.setRoleEnum(RoleEnum.DEVELOPER);
-			developerRole.setPermissions(Set.of(createPermission,readPermission,updatePermission,deletePermission,refactorPermission));
+			RoleEntity developerRole = RoleEntity.builder()
+					.roleEnum(RoleEnum.DEVELOPER)
+					.permissions(Set.of(createPermission,readPermission,updatePermission,deletePermission,refactorPermission))
+					.build();
 
 			// CREATE USERS
-			UserEntity christianUser = new UserEntity();
-			christianUser.setUsername("christian");
-			christianUser.setPassword("$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi");
-			christianUser.setEnabled(true);
-			christianUser.setAccountNoExpired(true);
-			christianUser.setAccountNoLocked(true);
-			christianUser.setCredentialNoExpired(true);
-			christianUser.setRoles(Set.of(adminRole));
+			UserEntity christianUser = UserEntity.builder()
+					.username("christian")
+					.password("$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi")
+					.isEnabled(true)
+					.accountNoExpired(true)
+					.accountNoLocked(true)
+					.credentialNoExpired(true)
+					.roles(Set.of(adminRole))
+					.build();
 
-			UserEntity walterUser = new UserEntity();
-			walterUser.setUsername("walter");
-			walterUser.setPassword("$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi");
-			walterUser.setEnabled(true);
-			walterUser.setAccountNoExpired(true);
-			walterUser.setAccountNoLocked(true);
-			walterUser.setCredentialNoExpired(true);
-			walterUser.setRoles(Set.of(userRole));
+			UserEntity walterUser = UserEntity.builder()
+					.username("walter")
+					.password("$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi")
+					.isEnabled(true)
+					.accountNoExpired(true)
+					.accountNoLocked(true)
+					.credentialNoExpired(true)
+					.roles(Set.of(userRole))
+					.build();
 
-			UserEntity lizUser = new UserEntity();
-			lizUser.setUsername("liz");
-			lizUser.setPassword("$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi");
-			lizUser.setEnabled(true);
-			lizUser.setAccountNoExpired(true);
-			lizUser.setAccountNoLocked(true);
-			lizUser.setCredentialNoExpired(true);
-			lizUser.setRoles(Set.of(guestRole));
+			UserEntity lizUser = UserEntity.builder()
+					.username("liz")
+					.password("$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi")
+					.isEnabled(true)
+					.accountNoExpired(true)
+					.accountNoLocked(true)
+					.credentialNoExpired(true)
+					.roles(Set.of(guestRole))
+					.build();
 
-			UserEntity bellaUser = new UserEntity();
-			bellaUser.setUsername("bella");
-			bellaUser.setPassword("$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi");
-			bellaUser.setEnabled(true);
-			bellaUser.setAccountNoExpired(true);
-			bellaUser.setAccountNoLocked(true);
-			bellaUser.setCredentialNoExpired(true);
-			bellaUser.setRoles(Set.of(developerRole));
+			UserEntity bellaUser = UserEntity.builder()
+					.username("bella")
+					.password("$2a$10$qG3wS1Evr6WNJIJof5TEXOV5CTIJZDrenVSSxqJ2kIWbq6HDydVNi")
+					.isEnabled(true)
+					.accountNoExpired(true)
+					.accountNoLocked(true)
+					.credentialNoExpired(true)
+					.roles(Set.of(developerRole))
+					.build();
 
 			userRepository.saveAll(List.of(christianUser,walterUser,lizUser,bellaUser));
 		};

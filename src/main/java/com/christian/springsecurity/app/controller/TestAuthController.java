@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 // DONDE denyAll() NOS INDICA QUE POR DEFECTO DENEGAMOS TODOS LOS ACCESOS A LA CLASE
 // OBTENIENDO UNA RESPUESTA 403 (FORBIDDEN)
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/method")
 // @PreAuthorize("denyAll()")
 public class TestAuthController {
 

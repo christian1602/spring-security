@@ -1,6 +1,8 @@
 package com.christian.springsecurity.app.config;
 
+import com.christian.springsecurity.app.config.filter.JwtTokenValidator;
 import com.christian.springsecurity.app.service.UserDetailsServiceImpl;
+import com.christian.springsecurity.app.util.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,11 +19,18 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    private final JwtUtils jwtUtils;
+
+    public SecurityConfig(JwtUtils jwtUtils) {
+        this.jwtUtils = jwtUtils;
+    }
 
     // PASO 1: CONFIGURANDO SECURITY FILTER CHAIN SIN ANOTACIONES EN EL CONTROLADOR TestAuthController
     @Bean
@@ -42,20 +51,23 @@ public class SecurityConfig {
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 1.3
                 .authorizeHttpRequests(auths -> {
                     // PRIMERO: CONFIGURAR LOS ENDPOINTS PUBLICOS
-                    auths.requestMatchers(HttpMethod.GET, "/auth/get").permitAll();
+                    auths.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
 
                     // SEGUNDO: CONFIGURAR LOS ENDPOINTS PRIVADOS
                     // auths.requestMatchers(HttpMethod.POST, "/auth/post").hasAuthority("CREATE");
                     // auths.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyAuthority("CREATE", "READ");
-                    auths.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAnyAuthority("REFACTOR");
+                    auths.requestMatchers(HttpMethod.PATCH, "/method/patch").hasAnyAuthority("REFACTOR");
 
                     // auths.requestMatchers(HttpMethod.POST, "/auth/post").hasRole("ADMIN");
-                    auths.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyRole("ADMIN","DEVELOPER");
+                    auths.requestMatchers(HttpMethod.POST, "/method/post").hasAnyRole("ADMIN","DEVELOPER");
+                    // auths.requestMatchers(HttpMethod.GET, "/method/get").hasAnyRole("GUEST");
+                    auths.requestMatchers(HttpMethod.GET, "/method/get").hasAnyAuthority("READ");
 
                     // TERCERO: CONFIGURAR EL RESTO DE ENDPOINTS - NO ESPECIFICADOS
                     // auths.anyRequest().authenticated(); // CREDENCIALES VALIDAS, ENTONCES LA RESPUESTA ES 200 (OK)
                     auths.anyRequest().denyAll();    // LA RESPUESTA SIEMPRE SERA 403 (FORBIDDEN)
                 })
+                .addFilterBefore(new JwtTokenValidator(this.jwtUtils), BasicAuthenticationFilter.class)
                 .build();
     }
 
