@@ -25,7 +25,16 @@ public class AuthenticationController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody AuthCreateUserRequest authCreateUserRequest){
-        return new ResponseEntity<AuthResponse>(this.userDetailsService.createUser(authCreateUserRequest), HttpStatus.CREATED);
+        try {
+            AuthResponse response = this.userDetailsService.createUser(authCreateUserRequest);
+            return new ResponseEntity<AuthResponse>(response, HttpStatus.CREATED);
+        } catch(IllegalArgumentException ex){
+            // Esta excepción se lanza si los roles no existen
+            return new ResponseEntity<AuthResponse>(new AuthResponse(authCreateUserRequest.username(), ex.getMessage(), null, false), HttpStatus.BAD_REQUEST);
+        } catch(Exception ex) {
+            // Manejo de errores genéricos
+            return new ResponseEntity<AuthResponse>(new AuthResponse(authCreateUserRequest.username(), "Error during registration", null, false), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/log-in")

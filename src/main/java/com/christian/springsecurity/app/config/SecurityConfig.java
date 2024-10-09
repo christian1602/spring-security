@@ -92,7 +92,7 @@ public class SecurityConfig {
     }*/
 
     // PASO 2: CONFIGURANDO AUTHENTICATION MANAGER
-    @Bean
+        @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }

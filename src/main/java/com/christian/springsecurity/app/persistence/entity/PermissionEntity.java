@@ -17,5 +17,4 @@ public class PermissionEntity {
 
     @Column(nullable = false, unique = true, updatable = false)
     private String name;
-
 }
