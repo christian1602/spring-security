@@ -104,7 +104,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserEntity userEntity = UserEntity.builder()
                 .username(username)
                 .password(this.passwordEncoder.encode(password))
-                .isEnabled(true)
+                .enabled(true)
                 .accountNoLocked(true)
                 .accountNoExpired(true)
                 .credentialNoExpired(true)

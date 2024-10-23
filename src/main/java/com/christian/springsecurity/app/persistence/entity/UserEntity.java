@@ -23,7 +23,7 @@ public class UserEntity {
     private String password;
 
     @Column(name = "is_enabled")
-    private boolean isEnabled; // REQUERIDO POR SPRING SECURITY
+    private boolean enabled; // REQUERIDO POR SPRING SECURITY
 
     @Column(name = "account_no_expired")
     private boolean accountNoExpired; // REQUERIDO POR SPRING SECURITY
